@@ -1,0 +1,154 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>JavaScript - Js DrumKit - Day 1</title>
+</head>
+<body>
+	<div class="keys">
+		<div data-key="65" class="key">
+			<kbd>A</kbd>
+			<span class="sound">claps</span>
+		</div>
+		<div data-key="83" class="key">
+			<kbd>S</kbd>
+			<span class="sound">hihit</span>
+		</div>
+		<div data-key="68" class="key">
+			<kbd>D</kbd>
+			<span class="sound">kick</span>
+		</div>
+		<div data-key="70" class="key">
+			<kbd>F</kbd>
+			<span class="sound">openhat</span>
+		</div>
+		<div data-key="71" class="key">
+			<kbd>G</kbd>
+			<span class="sound">boom</span>
+		</div>
+		<div data-key="72" class="key">
+			<kbd>H</kbd>
+			<span class="sound">ride</span>
+		</div>
+		<div data-key="74" class="key">
+			<kbd>J</kbd>
+			<span class="sound">snare</span>
+		</div>
+		<div data-key="75" class="key">
+			<kbd>K</kbd>
+			<span class="sound">tom</span>
+		</div>
+		<div data-key="76" class="key">
+			<kbd>L</kbd>
+			<span class="sound">tink</span>
+		</div>
+	</div>
+
+	<div class="quote">
+	
+		<blockquote>
+		<p><em> - Let yourself be silently drawn by the stronger pull of what you really love.</em></p>
+		</blockquote>
+		<cite>Rumi</cite>
+	
+	</div>
+
+	<audio data-key="65" src="sounds/clap.wav"></audio>
+	<audio data-key="83" src="sounds/hihat.wav"></audio>
+	<audio data-key="68" src="sounds/kick.wav"></audio>
+	<audio data-key="70" src="sounds/openhat.wav"></audio>
+	<audio data-key="71" src="sounds/boom.wav"></audio>
+	<audio data-key="72" src="sounds/ride.wav"></audio>
+	<audio data-key="74" src="sounds/snare.wav"></audio>
+	<audio data-key="75" src="sounds/tom.wav"></audio>
+	<audio data-key="76" src="sounds/tink.wav"></audio>
+
+	<!-- USING JavaScript INSIDE THE ( HTML ) FILE. -->>
+
+	<script>
+		
+		function playSound(e) {
+			const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+			const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);	 //getting the key data to use in animation
+			if (!audio) return; 	// stops tje function
+			audio.currentTime = 0; 	//rewinds to the start
+			audio.play();	 //plays the sound
+			key.classList.add('playing'); 	//adding the .playing class to the { key } element using js
+		}
+		
+		function removeTransition(e){ 	//making a function to remove transition listener 
+			if(e.propertyName !== 'transform') return;	 //skiping if it is not the 'transform' property
+			this.classList.remove('playing');	 //removing tje class playing 
+		}
+
+		const keys = document.querySelectorAll('.key'); 	//selectin all elements with the class of .key and listing them together
+		
+		keys.forEach(key => key.addEventListener('transitionend', removeTransition)); 	//adding the 'transition' listener to the key and removing it => using ES6
+		
+		window.addEventListener('keydown', playSound);
+	</script>
+
+	<!-- USING CSS INSIDE THE ( HTML ) FILE. -->>
+	<style>
+	html {
+  font-size: 10px;
+  background: url(https://images.unsplash.com/photo-1506689052903-feca7809eade?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=16a14e961c6dd63c49727802b5551960&auto=format&fit=crop&w=1350&q=80) bottom center;
+  background-size: cover;
+}
+body,html {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.keys {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.key {
+  border: .4rem solid black;
+  border-radius: .5rem;
+  margin: 1rem;
+  font-size: 1.5rem;
+  padding: 1rem .5rem;
+  transition: all .07s ease;
+  width: 10rem;
+  text-align: center;
+  color: white;
+  background: rgba(0,0,0,0.4);
+  text-shadow: 0 0 .5rem black;
+}
+
+.playing {
+  transform: scale(1.1);
+  border-color: #ffc600;
+  box-shadow: 0 0 1rem #ffc600;
+}
+
+kbd {
+  display: block;
+  font-size: 4rem;
+}
+
+.sound {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: .1rem;
+  color: #ffc600;
+}
+.quote {
+	color: #ffc600;
+	text-align: center;
+	font-size: 24px;
+	position: relative;
+
+}
+
+	</style>
+</body>
+</html>
